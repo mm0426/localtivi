@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  hdhr-gateway:
+    build: .
+    container_name: hdhr-gateway
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ./static:/app/static
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
